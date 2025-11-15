@@ -62,8 +62,8 @@ class Task2(BaseGridWorldEnv):
         done = self.agent_pos == self.target_pos or self._step_count >= self.max_steps
         reward = 10.0 if self.agent_pos == self.target_pos else (self.pre_distance - self.cur_distance)*0.1
         info = self._get_info()
-
-        return self.grid.copy(), reward, done, False, info
+        obs = self._get_obs()
+        return obs, reward, done, False, info
     
 if __name__ == "__main__":
     env = Task2(render_mode="human", grid_size=8, max_steps=50, seed=42)
