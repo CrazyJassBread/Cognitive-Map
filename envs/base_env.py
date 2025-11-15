@@ -2,11 +2,9 @@ from __future__ import annotations
 import sys
 from typing import Optional, Dict, Tuple, Any
 from abc import ABC, abstractmethod
-
 import numpy as np
 import gymnasium as gym
 from gymnasium import spaces
-
 
 class BaseGridWorldEnv(gym.Env, ABC):
     metadata = {
@@ -20,6 +18,7 @@ class BaseGridWorldEnv(gym.Env, ABC):
         max_steps: int = 200,
         entities: Optional[Dict[int, int]] = None,
         seed: Optional[int] = None,
+        cognitive_map: bool = False,
     ):
         """
         参数:
@@ -32,6 +31,7 @@ class BaseGridWorldEnv(gym.Env, ABC):
         self.grid_size = grid_size
         self.render_mode = render_mode
         self.max_steps = max_steps
+        self.cognitive_map = cognitive_map
         # self.entities = entities or {2: 2, 3: 1}  # 可自行扩展，如 4:1 等
         self._step_count = 0
 
@@ -42,7 +42,6 @@ class BaseGridWorldEnv(gym.Env, ABC):
             shape=(self.grid_size, self.grid_size),
             dtype=np.uint8,
         )
-
         # 动作: 0=上, 1=右, 2=下, 3=左
         self.action_space = spaces.Discrete(4)
 

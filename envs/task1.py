@@ -2,6 +2,8 @@ from envs.base_env import BaseGridWorldEnv
 import gymnasium as gym
 import numpy as np
 import time
+from typing import Optional, Dict, Tuple, Any
+from envs.cognitive_map import cognitive_map
 
 class Task1(BaseGridWorldEnv):
     def __init__(self, **kwargs):
@@ -15,6 +17,25 @@ class Task1(BaseGridWorldEnv):
         self.target_pos = (self.grid_size - 1, self.grid_size - 1)
         self.grid[self.agent_pos] = 1  # 代理人用值1表示
         self.grid[self.target_pos] = 2  # 目标用值2表示
+
+    def _get_obs(self):
+        if self.cognitive_map:
+            return cognitive_map.cognitive_map_task1(self.agent_pos, self.target_pos, None, map_size=(self.grid_size, self.grid_size))
+        else:
+            return self.grid.copy()
+        
+    def reset(self, *, seed: Optional[int] = None, options: Optional[dict] = None,):
+        if seed is not None:
+            self._rng = np.random.default_rng(seed)
+        self._step_count = 0
+        self._spawn()
+        self._needs_redraw = True
+
+        if self.render_mode == "human":
+            self._render_human()
+        elif self.render_mode == "ansi":
+            pass
+        return self._get_obs(), self._get_info()
     
     def step(self, action):
         self._step_count += 1
