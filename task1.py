@@ -6,6 +6,8 @@ import time
 class Task1(BaseGridWorldEnv):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.pre_distance = None
+        self.cur_distance = None
 
     def _spawn(self):
         self.grid.fill(0)
@@ -17,6 +19,8 @@ class Task1(BaseGridWorldEnv):
     def step(self, action):
         self._step_count += 1
         # 计算新位置
+        self.pre_distance = np.linalg.norm(np.array(self.agent_pos) - np.array(self.target_pos))
+
         new_pos = list(self.agent_pos)
         if action == 0 and self.agent_pos[0] > 0:  # 上
             new_pos[0] -= 1
@@ -26,17 +30,16 @@ class Task1(BaseGridWorldEnv):
             new_pos[0] += 1
         elif action == 3 and self.agent_pos[1] > 0:  # 左
             new_pos[1] -= 1
-        
+
         # 更新位置
         self.grid[self.agent_pos] = 0
         self.agent_pos = tuple(new_pos)
         self.grid[self.agent_pos] = 1
-
-        #self._needs_redraw = True # 重新绘制图像
+        self.cur_distance = np.linalg.norm(np.array(self.agent_pos) - np.array(self.target_pos))
 
         # 检查是否到达目标
         done = self.agent_pos == self.target_pos or self._step_count >= self.max_steps
-        reward = 1.0 if self.agent_pos == self.target_pos else 0.0
+        reward = 10.0 if self.agent_pos == self.target_pos else (self.pre_distance - self.cur_distance)*0.1
         info = self._get_info()
 
         return self.grid.copy(), reward, done, False, info
