@@ -1,4 +1,4 @@
-from base_env import BaseGridWorldEnv
+from envs.base_env import BaseGridWorldEnv
 import gymnasium as gym
 import numpy as np
 import time
@@ -10,7 +10,7 @@ class Task2(BaseGridWorldEnv):
         self.cur_distance = None
 
     def _spawn(self):
-        self.grid.fill(4)
+        self.grid.fill(5)
         self.agent_pos = (0,0)
         self.target_pos = (self.grid_size - 1, self.grid_size - 1)
         self.grid[self.agent_pos] = 1  # 代理人用值1表示
@@ -32,7 +32,7 @@ class Task2(BaseGridWorldEnv):
             new_pos[1] -= 1
         
         # 更新位置
-        self.grid[self.agent_pos] = 4
+        self.grid[self.agent_pos] = 5
         self.agent_pos = tuple(new_pos)
         self.grid[self.agent_pos] = 1
         self.cur_distance = np.linalg.norm(np.array(self.agent_pos) - np.array(self.target_pos))

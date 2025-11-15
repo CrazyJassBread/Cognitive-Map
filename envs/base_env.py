@@ -132,14 +132,14 @@ class BaseGridWorldEnv(gym.Env, ABC):
         def paint(mask: np.ndarray, color: Tuple[int, int, int]):
             img[mask] = color
         # 颜色映射
+        paint(self.grid == 0, (245, 245, 245))  # empty: 微微灰色
         paint(self.grid == 1, (30, 144, 255))   # agent: dodgerblue
-        paint(self.grid == 2, (220, 20, 60))    # 2: crimson
-        paint(self.grid == 3, (34, 139, 34))    # 3: forestgreen
-
-        # 其他未知 id 使用灰色
-        unknown_mask = (self.grid >= 4)
+        paint(self.grid == 2, (34, 139, 34))    # goal: green
+        paint(self.grid == 3, (255, 0, 0))      # danger: red
+        paint(self.grid == 4, (169, 169, 169))  # wall: darkgray
+        unknown_mask = (self.grid >= 5)
         if unknown_mask.any():
-            paint(unknown_mask, (128, 128, 128))
+            paint(unknown_mask, (0, 0, 0))
         return img
 
     def _render_human(self):

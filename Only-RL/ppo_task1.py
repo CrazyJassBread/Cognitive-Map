@@ -1,6 +1,8 @@
 from stable_baselines3 import PPO
-from task1 import Task1
-from task2 import Task2
+import sys, os
+sys.path.append(os.path.dirname(os.path.dirname(__file__)))
+from envs.task1 import Task1
+from envs.task2 import Task2
 import time
 
 env = Task1(grid_size=8, max_steps=100, render_mode="ansi")
@@ -8,7 +10,7 @@ model = PPO("MlpPolicy", env, verbose=1)
 model.learn(total_timesteps=20000)
 env.close()
 
-env = Task2(grid_size=8, max_steps=100, render_mode="human")
+env = Task1(grid_size=8, max_steps=100, render_mode="human")
 obs,_ = env.reset()
 done = False
 

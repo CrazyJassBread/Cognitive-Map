@@ -1,4 +1,4 @@
-from base_env import BaseGridWorldEnv
+from envs.base_env import BaseGridWorldEnv
 import gymnasium as gym
 import numpy as np
 import time
@@ -18,7 +18,6 @@ class Task1(BaseGridWorldEnv):
     
     def step(self, action):
         self._step_count += 1
-        # 计算新位置
         self.pre_distance = np.linalg.norm(np.array(self.agent_pos) - np.array(self.target_pos))
 
         new_pos = list(self.agent_pos)
