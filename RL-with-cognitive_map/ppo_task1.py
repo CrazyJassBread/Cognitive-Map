@@ -19,4 +19,5 @@ while not done:
     obs, reward, done, _, info = env.step(action)
     print(reward, info)
     time.sleep(0.2)
-    env.render() 
+    env.render()
+env.close()
