@@ -114,9 +114,10 @@ class Task3(BaseGridWorldEnv):
         else:
             reward = (self.pre_distance - self.cur_distance) * 0.1
         
+        obs = self._get_obs()
         info = self._get_info(action=action)
 
-        return self.grid.copy(), reward, done, False, info
+        return obs, reward, done, False, info
 
 if __name__ == "__main__":
     env = Task3(render_mode="human", grid_size=8, max_steps=100, seed=42)

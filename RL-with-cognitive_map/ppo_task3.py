@@ -6,7 +6,7 @@ import time
 
 env = Task3(grid_size=8, max_steps=200, render_mode="ansi", cognitive_map=True, background=0)
 model = PPO("MlpPolicy", env, verbose=1)
-model.learn(total_timesteps=20000)
+model.learn(total_timesteps=40000)
 env.close()
 
 env = Task3(grid_size=8, max_steps=200, render_mode="human", cognitive_map=True, background=0)
@@ -22,7 +22,7 @@ env.close()
 
 time.sleep(1)
 
-env = Task3(grid_size=8, max_steps=100, render_mode="human", cognitive_map=True, background=5)
+env = Task3(grid_size=8, max_steps=200, render_mode="human", cognitive_map=True, background=5)
 obs,_ = env.reset()
 done = False
 while not done:
