@@ -8,8 +8,8 @@ import time
 env = Task1(grid_size=8, max_steps=100, render_mode="ansi")
 model = DQN("MlpPolicy", env, verbose=1)
 model.learn(total_timesteps=5000)
-
 env.close()
+
 env = Task2(grid_size=8, max_steps=100, render_mode="human")
 obs,_ = env.reset()
 done = False

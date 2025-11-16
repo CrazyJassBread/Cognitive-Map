@@ -32,3 +32,21 @@ class cognitive_map():
 
         map[target_x, target_y] = 1  # Mark current position
         return map
+
+    def cognitive_map_task3(
+        agent_pos, 
+        target_pos,
+        wall_locs,
+        trap_locs,
+        map_size=(8, 8)
+    ):
+        map = np.zeros(map_size)
+        x, y = agent_pos
+        map[x, y] = 1  # Mark current position
+        goal_x, goal_y = target_pos
+        map[goal_x, goal_y] = 2  # Mark goal position
+        for r, c in wall_locs:
+            map[r, c] = 3  # Mark wall positions
+        for r, c in trap_locs:
+            map[r, c] = 4  # Mark trap positions
+        return map

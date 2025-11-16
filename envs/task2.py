@@ -20,7 +20,7 @@ class Task2(BaseGridWorldEnv):
     
     def _get_obs(self):
         if self.cognitive_map:
-            return cognitive_map.cognitive_map_task1(self.agent_pos, self.target_pos, None, map_size=(self.grid_size, self.grid_size))
+            return cognitive_map.cognitive_map_task1(self.agent_pos, self.target_pos, map_size=(self.grid_size, self.grid_size))
         else:
             return self.grid.copy()
         

@@ -30,20 +30,20 @@ class Task3(BaseGridWorldEnv):
         self.grid[self.target_pos] = TARGET_VALUE
 
         # 放置墙壁 (WALL_VALUE = 3)
-        for i in range(2, grid_size // 2):
-            self.grid[i, grid_size // 2] = WALL_VALUE
-            self.grid[grid_size // 2, i] = WALL_VALUE
+        # wall_locs = [(grid_size // 2, 0), (1, grid_size // 2), (grid_size // 2 + 1, grid_size - 1)]
+        for r, c in self.wall_locs:
+            self.grid[r, c] = WALL_VALUE
             
         # 放置陷阱 (TRAP_VALUE = 4)
-        trap_locs = [(2, 2), (grid_size - 3, grid_size - 3)]
-        for r, c in trap_locs:
+        # trap_locs = [(2, 2), (grid_size - 3, grid_size - 3)]
+        for r, c in self.trap_locs:
             # 确保陷阱不覆盖 Agent 或 Target
             if self.grid[r, c] == self.fill_value:
                 self.grid[r, c] = TRAP_VALUE
     
     def _get_obs(self):
         if self.cognitive_map:
-            return cognitive_map.cognitive_map_task3(self.agent_pos, self.target_pos, None, map_size=(self.grid_size, self.grid_size))
+            return cognitive_map.cognitive_map_task3(self.agent_pos, self.target_pos, self.wall_locs, self.trap_locs, map_size=(self.grid_size, self.grid_size))
         else:
             return self.grid.copy()
     
@@ -78,6 +78,9 @@ class Task3(BaseGridWorldEnv):
         # 检查是否越界
         r_valid = 0 <= new_r < self.grid_size
         c_valid = 0 <= new_c < self.grid_size
+        is_out = False
+        if r_valid is False or c_valid is False:
+            is_out = True
         # 检查新位置是否是墙壁
         is_wall = False
         if r_valid and c_valid and self.grid[candidate_pos] == WALL_VALUE:
@@ -91,7 +94,6 @@ class Task3(BaseGridWorldEnv):
             self.grid[current_pos] = self.fill_value
         else:
             self.grid[current_pos] = TRAP_VALUE
-            self.pass_trap = False
         self.agent_pos = final_pos
         target_content = self.grid[self.agent_pos]
         self.grid[self.agent_pos] = AGENT_VALUE # Agent 标记为 1
@@ -99,6 +101,7 @@ class Task3(BaseGridWorldEnv):
 
         done = self.agent_pos == self.target_pos or self._step_count >= self.max_steps
         reward = 0.0
+        self.pass_trap = False
         if self.agent_pos == self.target_pos:
             reward = 10.0 # 目标奖励
         elif target_content == TRAP_VALUE:
@@ -106,10 +109,12 @@ class Task3(BaseGridWorldEnv):
             reward = -1.0 # 陷阱奖励 (高额惩罚)
         elif is_wall:
             reward = -0.05 # 撞墙惩罚 (小额惩罚，鼓励学习避免撞墙)
+        elif is_out:
+            reward = -0.01 # 越界惩罚 (小额惩罚，鼓励学习不越界)
         else:
             reward = (self.pre_distance - self.cur_distance) * 0.1
         
-        info = self._get_info()
+        info = self._get_info(action=action)
 
         return self.grid.copy(), reward, done, False, info
 
