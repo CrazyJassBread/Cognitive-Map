@@ -12,11 +12,15 @@ WALL_VALUE = 4
 UKNOWN = 5
 
 class Task3(BaseGridWorldEnv):
-    def __init__(self, **kwargs):
+    def __init__(self, wall_locs=None, trap_locs=None, **kwargs):
         super().__init__(**kwargs)
         self.pre_distance = None
         self.cur_distance = None
         self.pass_trap = False
+        if wall_locs is not None:
+            self.wall_locs = wall_locs
+        if trap_locs is not None:
+            self.trap_locs = trap_locs
 
     def _spawn(self):
         """

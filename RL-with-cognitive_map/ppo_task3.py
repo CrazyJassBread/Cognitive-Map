@@ -5,8 +5,8 @@ from envs.task3 import Task3
 import time
 
 env = Task3(grid_size=8, max_steps=200, render_mode="ansi", cognitive_map=True, background=0)
-model = PPO("MlpPolicy", env, verbose=1)
-model.learn(total_timesteps=40000)
+model = PPO("MlpPolicy", env, verbose=1, tensorboard_log="./ppo_task3_cognitive_map_tensorboard/")
+model.learn(total_timesteps=20000)
 env.close()
 
 env = Task3(grid_size=8, max_steps=200, render_mode="human", cognitive_map=True, background=0)

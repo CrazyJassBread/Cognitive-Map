@@ -1,1 +1,5 @@
 _pycache_/
+
+envs\__pycache__/
+
+*.pyc
