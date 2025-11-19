@@ -6,12 +6,12 @@ from envs.task_random import Task_random
 import time
 
 env = Task_random(grid_size=8, max_steps=200, render_mode="ansi", cognitive_map=True, random = False)
-model = PPO("MlpPolicy", env, verbose=1)
+model = PPO("MlpPolicy", env, verbose=1, tensorboard_log="./log/cognitive_random_PPO/")
 model.learn(total_timesteps=40000)
 
 env.close()
-env = Task_random(grid_size=8, max_steps=200, render_mode="human", cognitive_map=True)
-for _ in range(5):
+env = Task_random(grid_size=8, max_steps=200, render_mode="human", cognitive_map=True, random=True)
+for _ in range(10):
     obs,_ = env.reset()
     done = False
     while not done:

@@ -9,3 +9,13 @@
 由于Task1和Task2在任务上基本一致，因此将测试在Task1训练、Task2中迁移的表现
 
 **PPO**、**A2C**、**DQN**等文件则是在不引入cognitive map的抽象机制前测试的文件
+
+only A2C：train average 14 test average = 100steps
+
+only PPO：train average 14 test average = 23steps
+
+only DQN: train average 14 test average = 100steps
+
+human: train average 14 test average = 14
+
+PPO with cognitive map: train average =14 test average 14

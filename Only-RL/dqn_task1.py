@@ -6,8 +6,8 @@ from envs.task2 import Task2
 import time
 
 env = Task1(grid_size=8, max_steps=100, render_mode="ansi")
-model = DQN("MlpPolicy", env, verbose=1, tensorboard_log="./task1_tensorboard/")
-model.learn(total_timesteps=5000)
+model = DQN("MlpPolicy", env, verbose=1, tensorboard_log="./log/task1_DQN/")
+model.learn(total_timesteps=6000)
 env.close()
 
 env = Task2(grid_size=8, max_steps=100, render_mode="human")
@@ -17,6 +17,6 @@ done = False
 while not done:
     action, _ = model.predict(obs)
     obs, reward, done, _, info = env.step(action)
-    print(reward, info)
+    print(reward, info, action)
     time.sleep(0.2)
     env.render() 

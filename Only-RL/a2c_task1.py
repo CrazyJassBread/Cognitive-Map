@@ -6,8 +6,8 @@ from envs.task2 import Task2
 import time
 
 env = Task1(grid_size=8, max_steps=100, render_mode="ansi")
-model = A2C("MlpPolicy", env, verbose=1, tensorboard_log="./task1_tensorboard/")
-model.learn(total_timesteps=10000)
+model = A2C("MlpPolicy", env, verbose=1, tensorboard_log="./log/task1_A2C/")
+model.learn(total_timesteps=40000)
 env.close()
 
 env = Task2(grid_size=8, max_steps=100, render_mode="human")
