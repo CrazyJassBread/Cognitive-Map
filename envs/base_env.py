@@ -19,7 +19,8 @@ class BaseGridWorldEnv(gym.Env, ABC):
         entities: Optional[Dict[int, int]] = None,
         seed: Optional[int] = None,
         cognitive_map: bool = False,
-        background: int = 0
+        background: int = 0,
+        random: int = True
     ):
         """
         参数:
@@ -36,6 +37,7 @@ class BaseGridWorldEnv(gym.Env, ABC):
         # self.entities = entities or {2: 2, 3: 1}  # 可自行扩展，如 4:1 等
         self._step_count = 0
         self.fill_value = background
+        self.random = random
 
         # 观测是一个 grid_size x grid_size 的整数矩阵，0=空，1=agent，>=2 其他事物
         self.observation_space = spaces.Box(

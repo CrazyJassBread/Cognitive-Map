@@ -25,18 +25,21 @@ class Task_random(BaseGridWorldEnv):
 
     def _spawn(self):
         self.grid.fill(0)
-        rng = getattr(self, "_rng", None) or np.random.default_rng()
+        if self.random:
+            rng = getattr(self, "_rng", None) or np.random.default_rng()
 
-        total_cells = self.grid_size * self.grid_size
-        # 从所有格子中不放回抽样两个不同的索引
-        a_idx, t_idx = rng.choice(total_cells, size=2, replace=False)
+            total_cells = self.grid_size * self.grid_size
+            # 从所有格子中不放回抽样两个不同的索引
+            a_idx, t_idx = rng.choice(total_cells, size=2, replace=False)
 
-        def idx_to_pos(i):
-            return (i // self.grid_size, i % self.grid_size)
+            def idx_to_pos(i):
+                return (i // self.grid_size, i % self.grid_size)
 
-        self.agent_pos = idx_to_pos(int(a_idx))
-        self.target_pos = idx_to_pos(int(t_idx))
-
+            self.agent_pos = idx_to_pos(int(a_idx))
+            self.target_pos = idx_to_pos(int(t_idx))
+        else:
+            self.agent_pos = (0,0)
+            self.target_pos = (4, 4)
         self.grid[self.agent_pos] = 1  # 代理人用值1表示
         self.grid[self.target_pos] = 2  # 目标用值2表示
 

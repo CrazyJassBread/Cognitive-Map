@@ -5,7 +5,7 @@ from envs.task_random import Task_random
 
 import time
 
-env = Task_random(grid_size=8, max_steps=200, render_mode="ansi", cognitive_map=True)
+env = Task_random(grid_size=8, max_steps=200, render_mode="ansi", cognitive_map=True, random = False)
 model = PPO("MlpPolicy", env, verbose=1)
 model.learn(total_timesteps=40000)
 

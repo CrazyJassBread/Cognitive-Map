@@ -65,15 +65,40 @@ class Task1(BaseGridWorldEnv):
         obs = self._get_obs()
         return obs, reward, done, False, info
     
+from pynput import keyboard
+def get_action_from_key():
+    action_map = {
+        'w': 0,  # 上
+        'd': 1,  # 右
+        's': 2,  # 下
+        'a': 3   # 左
+    }
+    action = None
+    def on_press(key):
+        nonlocal action
+        try:
+            if key.char in action_map:
+                action = action_map[key.char]
+                return False  # 停止监听
+        except AttributeError:
+            pass
+    with keyboard.Listener(on_press=on_press) as listener:
+        listener.join()
+    return action
+
 if __name__ == "__main__":
-    env = Task1(render_mode="human", grid_size=8, max_steps=50, seed=42)
+    env = Task1(render_mode="human", grid_size=8, max_steps=100, seed=42)
     obs = env.reset()
     done = False
-
+    steps = 0
     while not done:
-        action = env.action_space.sample()  # 随机动作
+        #action = env.action_space.sample()  # 随机动作
+        action = get_action_from_key()
+        if action is None:
+            continue
+        steps += 1
         obs, reward, done, _, info = env.step(action)
         env.render()
         time.sleep(0.2)
-    
+    print(f"Episode finished in {steps} steps.")
     env.close()
